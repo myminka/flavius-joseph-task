@@ -15,16 +15,11 @@ namespace FlaviusJosephTask
         /// <param name="k">Which warrior should die.</param>
         /// <returns>Alived warior.</returns>
         /// <exception cref="ArgumentException">, when k or count less than 1.</exception>
-        public static IEnumerable<int> GetAlives(int[] collection, int k)
+        public static IEnumerable<int> GetAlives(int count, int k)
         {
-            if (collection is null)
+            if (count < 1)
             {
-                throw new ArgumentNullException(nameof(collection));
-            }
-
-            if (collection.Length < 1)
-            {
-                throw new ArgumentException(nameof(collection));
+                throw new ArgumentException(nameof(count));
             }
 
             if (k < 1)
@@ -32,7 +27,14 @@ namespace FlaviusJosephTask
                 throw new ArgumentException(nameof(k));
             }
 
-            return GetAlive(new Queue<int>(collection), k);
+            Queue<int> queue = new Queue<int>(count);
+
+            for (int i = 1; i <= count; i++)
+            {
+                queue.Enqueue(i);
+            }
+
+            return GetAlive(queue, k);
 
             static IEnumerable<int> GetAlive(Queue<int> queue, int k)
             {
